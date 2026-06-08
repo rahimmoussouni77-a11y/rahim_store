@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>RAHIM 🏪 | متجر فاخر - استمارة طلب</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(145deg, #fff9f0 0%, #fff5e6 100%);
+            font-family: system-ui, 'Segoe UI', 'Poppins', 'Cairo', sans-serif;
+            color: #2d2a24;
+            line-height: 1.5;
+            padding: 1.5rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 245, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(255, 215, 120, 0.4);
+        }
+
+        .logo h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #c9a03d, #f5cd6d);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .admin-trigger {
+            background: #f8f2e3;
+            border: 1px solid #eedfa0;
+            padding: 0.6rem 1.4rem;
+            border-radius: 3rem;
+            font-weight: 500;
+            color: #b87c2e;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .admin-trigger:hover {
+            background: #ffe6b3;
+            border-color: #e6b422;
+            transform: scale(0.98);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .product-card {
+            background: #ffffffdd;
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(241, 196, 88, 0.3);
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+            border-color: #f5c542;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: #fef5e7;
+            display: block;
+            border-bottom: 2px solid #fae29a;
+        }
+
+        .product-info {
+            padding: 1.3rem;
+        }
+
+        .product-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: #3a2c1a;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #d4a017;
+            margin: 0.5rem 0;
+            display: inline-block;
+            background: #fff1da;
+            padding: 0.2rem 0.9rem;
+            border-radius: 2rem;
+        }
+
+        .product-desc {
+            color: #5c5243;
+            font-size: 0.85rem;
+            margin: 0.8rem 0 1rem;
+            line-height: 1.4;
+        }
+
+        .order-btn {
+            background: linear-gradient(95deg, #f9d56e, #f7c948);
+            border: none;
+            width: 100%;
+            padding: 0.85rem;
+            border-radius: 3rem;
+            font-weight: 700;
+            font-size: 1rem;
+            font-family: inherit;
+            color: #3a2c1a;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .order-btn:hover {
+            background: linear-gradient(95deg, #fdde85, #f8c63a);
+            transform: scale(0.98);
+        }
+
+        .empty-store {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(255,250,235,0.7);
+            border-radius: 2rem;
+            margin-top: 2rem;
+            border: 1px dashed #e6c87e;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #fffdf7;
+            max-width: 550px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+            border-top: 5px solid #f7cf5c;
+        }
+
+        .modal-content h2, .modal-content h3 {
+            color: #b67e2e;
+            margin-bottom: 1rem;
+        }
+
+        .modal-content input, .modal-content select, .modal-content textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0 1rem;
+            border: 1px solid #eeddae;
+            border-radius: 1.5rem;
+            font-family: inherit;
+            font-size: 0.9rem;
+            background: white;
+        }
+
+        .modal-content button {
+            background: #f3d37c;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .modal-content button:hover {
+            background: #ecbc45;
+        }
+
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+
+        label {
+            font-weight: 500;
+            color: #8b6942;
+        }
+
+        .admin-sm-btn {
+            background: #fff0d0;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 1.5rem;
+            cursor: pointer;
+        }
+
+        .danger-btn {
+            background: #ffe0d9;
+            color: #bc5a2c;
+        }
+
+        .logout-btn {
+            background: #e7dcc0;
+            margin-top: 1rem;
+        }
+
+        .login-error {
+            color: #c0392b;
+            font-size: 0.8rem;
+        }
+
+        .preview-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 1rem;
+        }
+
+        .file-label {
+            background: #f1e8d8;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            border-radius: 2rem;
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .product-admin-item {
+            background: #fef3e0;
+            border-radius: 1.3rem;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1>RAHIM 🏪 <span style="font-size:1rem;">متجر راقي</span></h1>
+        </div>
+        <div class="admin-trigger" id="adminTriggerBtn">🔐 لوحة الإدارة</div>
+    </div>
+
+    <div id="productsContainer" class="products-grid"></div>
+    <div id="emptyMessage" class="empty-store" style="display: none;">
+        <p>✨ المتجر فارغ حالياً ✨<br>سيتم إضافة المنتجات من لوحة الإدارة فقط.</p>
+    </div>
+</div>
+
+<!-- مودال الاستمارة -->
+<div id="orderFormModal" class="modal">
+    <div class="modal-content" id="orderModalContent"></div>
+</div>
+
+<!-- مودال لوحة الإدارة -->
+<div id="adminModal" class="modal">
+    <div class="modal-content" id="modalDynamic"></div>
+</div>
+
+<script>
+    // ======================== جميع الولايات الجزائرية (01 إلى 58) مع كامل البلديات ========================
+    const algeriaFullData = {
+        "01 أدرار": ["أدرار", "تامنطيت", "رقان", "تيمقتن", "أولف", "زاوية كنتة", "برج باجي مختار", "إن زغمير", "تسابيت", "بودة", "فوقة"],
+        "02 الشلف": ["الشلف", "المرسى", "الظهرة", "أولاد فارس", "بني حواء", "تنس", "الزلاقة", "السنجاس", "العبادية", "بني راشد", "الكريمية", "الحجاج", "أولاد عباس", "الغليزان", "تاجنة", "بربيرة"],
+        "03 الأغواط": ["الأغواط", "قصر الحيران", "عين ماضي", "تاجموت", "حاسي الرمل", "العامرية", "الأبيض سجري", "الغيشة", "الحويطات", "سبقاق"],
+        "04 أم البواقي": ["أم البواقي", "عين البيضاء", "فكرينة", "سيقوس", "مسكيانة", "القلعة", "بئر الشهداء", "الزرق", "الرحية", "عين مليلة", "أولاد زواوي"],
+        "05 باتنة": ["باتنة", "بريكة", "مروانة", "عين التوتة", "أريس", "تيمقاد", "بوزينة", "الشمورة", "إشمول", "تازولت", "أولاد عمار", "بومقر", "الجزار", "وادي الماء"],
+        "06 بجاية": ["بجاية", "القصر", "أقبو", "أميزور", "صدوق", "تازمالت", "تيشي", "أكرموش", "تيكسيرين", "تيمزريت", "وادي غير", "أفحير", "برباشة", "سوق الأحد"],
+        "07 بسكرة": ["بسكرة", "طولقة", "جمورة", "أورلال", "ليون", "البرانيس", "أولاد جلال", "الخنقة", "الغروس", "المزيرعة", "الجيش", "فوغالة"],
+        "08 بشار": ["بشار", "القنادسة", "لحمر", "بني ونيف", "تاغيت", "أبيض", "المشرية", "العبادلة", "موقد"],
+        "09 البليدة": ["البليدة", "بوفاريك", "العفرون", "موزاية", "الأربعاء", "بني مراد", "الشبلي", "بني تامو", "الأربعاء ناث ايراثن", "أولاد يعيش", "الصحاري"],
+        "10 البويرة": ["البويرة", "سور الغزلان", "الأخضرية", "حيزر", "بشلول", "عين بسام", "بئر غبالو", "الحمادية", "جبارية", "الهادي", "أحريف", "تاغزوت", "العدوية"],
+        "11 تمنراست": ["تمنراست", "عين صالح", "تاظروك", "أبلسة", "إن غار", "تازروق"],
+        "12 تبسة": ["تبسة", "العوينات", "الكويف", "بئر العاتر", "مرسط", "المهدية", "الحويجبات", "الونزة", "أولاد شبوط", "صفصاف", "العقلة"],
+        "13 تلمسان": ["تلمسان", "منصورة", "شتوان", "سبدو", "مغنية", "نمارة", "غرناطة", "فلاوسن", "بني سنوس", "أولاد ميمون", "الرمشي", "بني بهدل", "العزايل", "بني راشد", "الحناشة"],
+        "14 تيارت": ["تيارت", "فرندة", "مهدية", "السوقر", "الرحوية", "عيون", "السبعين", "الدحموني", "بومنقل", "قصر الشلالة", "تاقدمت", "الزمالة", "سرغين"],
+        "15 تيزي وزو": ["تيزي وزو", "الأربعاء ناث إيراثن", "ذراع الميزان", "بني دوالة", "بوغني", "واسيف", "ماكودة", "عزازقة", "أقبيل", "بني زيكي", "إجر", "أربعة عوام", "فريق واثلاس"],
+        "16 الجزائر": ["الجزائر الوسطى", "باب الوادي", "حراش", "الرويبة", "باب الزوار", "براقي", "القبة", "الدويرة", "بئر مراد رايس", "بئر خادم", "العاشور", "المحمدية", "الدار البيضاء", "الرغاية", "عين طاية", "زرالدة", "ستاوالي"],
+        "17 الجلفة": ["الجلفة", "عين وسارة", "مسعد", "حاسي بحبح", "دار الشيوخ", "الإدريسية", "الخنق", "عابد", "البليدة", "الزعفران", "بن ياجيس", "عرباوة"],
+        "18 جيجل": ["جيجل", "الميلية", "الطاهير", "زيامة منصورية", "القنار", "الفقار", "العنصر", "بني حذيفة", "أولاد عسكر", "الخنشلة", "سلمى بن زيادة"],
+        "19 سطيف": ["سطيف", "العلمة", "بابور", "بني ورتيلان", "بوعنداس", "قنزات", "عين آزال", "عين ولمان", "ذراع قبيلة", "بئر العرش", "أولاد تبان", "بني أوس", "الجميلة", "الاوريسية", "تالة إيفاسين"],
+        "20 سعيدة": ["سعيدة", "عين الحجر", "العامرة", "يوطا", "سيدي بوبكر", "سلي", "الحساسنة", "مولاي العربي"],
+        "21 سكيكدة": ["سكيكدة", "الحروش", "تمالوس", "عزابة", "بني بشير", "رمضان جمال", "القل", "أولاد عطية", "سيدي مزغيش", "زيتونة", "أم الطوب", "بني زيد", "عين بوزيان"],
+        "22 سيدي بلعباس": ["سيدي بلعباس", "تلاغ", "مصطفى بن إبراهيم", "عين الثريد", "مرين", "تافسورة", "سيدي حمادوش", "بني شبلي", "سيدي علي بوسيدي", "العين", "حاسي دحو", "بوقطب"],
+        "23 عنابة": ["عنابة", "الحجار", "سيدي عمار", "برحال", "عين الباردة", "سرايدي", "شطايبي", "الحدائق", "واد العنب"],
+        "24 قالمة": ["قالمة", "بوشقوف", "حمام دباغ", "هيليوبوليس", "رأس العقبة", "عين مخلوف", "بن جراح", "بوهاشم", "الفرج", "المجاز عمار", "الناظورة"],
+        "25 قسنطينة": ["قسنطينة", "الخروب", "عين سمارة", "زيغود يوسف", "بني حميدان", "المنتزه", "العمرية", "أولاد رحمون", "ابن باديس", "حامة بوزيان"],
+        "26 المدية": ["المدية", "البرواقية", "القلب الكبير", "بني سليمان", "وزرة", "الشلالة", "العمارية", "العزيزية", "حناشة", "الغرب", "أولاد معقل", "سوق الخميس", "سيدي نعمان", "بوشراحيل"],
+        "27 وهران": ["وهران", "بئر الجير", "السانية", "بطيوة", "مرسى الكبير", "وادي تليلات", "الكرمة", "بوسفر", "العنق", "حاسي بونيف", "المرسى", "الربيعي"],
+        "28 ورقلة": ["ورقلة", "رويسات", "النزلة", "حاسي مسعود", "أنجة", "تقارت", "بني ثور", "البارد"],
+        "29 البيض": ["البيض", "بوسمغون", "الأبيض سيدي الشيخ", "بريزينة", "الغاسول", "سيدي طيفور", "الأبيض", "القصر", "الرقيبة", "الكاف لحمر"],
+        "30 إليزي": ["إليزي", "جانت", "برج عمر إدريس", "ان أمناس", "دبداب"],
+        "31 برج بوعريريج": ["برج بوعريريج", "المحمدية", "الحدادة", "الياشير", "عين تاغروت", "الهمدانية", "القليعة", "المنصورة", "الغيلاسة", "رباح", "الصومعة"],
+        "32 بومرداس": ["بومرداس", "برج منايل", "بودواو", "دليس", "الخروبة", "عرباط", "بني عمران", "بغلية", "قورصو", "الناصرية", "الأربعاء", "أولاد هداج", "الزموري"],
+        "33 الطارف": ["الطارف", "القالة", "بوثلجة", "بوقوس", "الذرعان", "الطير", "زيتونة", "بن مهيدي", "بحيرة الطيور"],
+        "33 تندوف": ["تندوف", "أم العسل", "بني عباس", "الوزين"],
+        "34 تسمسيلت": ["تسمسيلت", "خميستي", "برج بونعامة", "برج الأمراء", "ثنية الأحد", "قرن الحجر", "تملاحت", "برج الأخضر", "بوقايد"],
+        "35 الوادي": ["الوادي", "الرباح", "رقان", "جامعة", "المقرن", "بني يحيى", "الضلعة", "الحمراية", "الطالب العربي", "المرازيق"],
+        "36 خنشلة": ["خنشلة", "قايس", "ششار", "بابار", "الحامة", "عين التوتة", "المحمل", "اليرجوم", "الونزة", "عابد"],
+        "37 سوق أهراس": ["سوق أهراس", "مداوروش", "سدراتة", "المشدنية", "الحنانشة", "القارة", "أولاد علوان", "الزغلول", "الواردة", "عين الزانة"],
+        "38 تيبازة": ["تيبازة", "القليعة", "حمر العين", "بوإسماعيل", "شرشال", "خميستي", "العثمانية", "الأبيار", "دورا", "حجاوة", "المراد", "سيدي راشد"],
+        "39 ميلة": ["ميلة", "العجيب", "عواشر", "بني حرون", "فرجيوة", "الرواشد", "التلاغمة", "القرارم", "عين بوسرار", "بني حيدرة", "تاجنانت", "أولاد حريز"],
+        "40 عين الدفلى": ["عين الدفلى", "مليانة", "برج الأمير خالد", "الحسينية", "الطبطابة", "بني حميدة", "جليدة", "العطاف", "عين تورك", "الوديعة", "العامرة", "بني مراد", "بادار"],
+        "41 النعامة": ["النعامة", "مشريا", "عين الصفراء", "عسلة", "تيوت", "مقرين", "الكاف", "الغطاسة"],
+        "42 عين تيموشنت": ["عين تيموشنت", "حمام بوحجر", "العامرية", "وادي برقاش", "بني صاف", "ولد لخضر", "الطليعة", "تارغة", "سيدي صافي"],
+        "43 غرداية": ["غرداية", "القرارة", "بنورة", "العطف", "منيعة", "زلفانة", "المنصورة", "البيض", "بني يزقن"],
+        "44 غليزان": ["غليزان", "واد الرحمون", "مازونة", "جديوية", "الحمادنة", "بني مهدي", "القليعة", "سوق الخميس", "عين مرة", "عين النويصر", "الرحمانية", "سيدي سعادة", "بلعسل"],
+        "45 تياريت": ["تياريت", "واد يوسف", "عين فضة", "عرب عسة", "تالكين", "الربو", "الملح", "الولجة"],
+        "46 عين أمناس": ["عين أمناس", "تازروق", "أن أمناس", "برج لحوة", "البروج"],
+        "47 تيميمون": ["تيميمون", "أولاد السعيد", "قصر قدور", "قصر عبد المومن", "شارون"],
+        "48 البرج": ["البرج", "عين الزيتون", "التليلي", "سليمان", "الأبيض", "أنجاد", "تاجموت", "ليون", "الكاف"],
+        "49 عنقوسة": ["عنقوسة", "تاجنانت", "بوحمامة", "أولاد يعيش", "أولاد علي", "القل", "الريشة"],
+        "50 بني عباس": ["بني عباس", "كرزاز", "تيمودي", "أولاد خليف", "الرقة"],
+        "51 عين صالح": ["عين صالح", "فوكي", "إدلس", "ان تقزاز", "عسال"],
+        "52 إن قزام": ["إن قزام", "تزروات", "تاونات", "تاراوت"],
+        "53 تاريت": ["تاريت", "بني أوسين", "عين زعطوط", "تيزي نثلاثة", "أقبيل"],
+        "54 اليزي": ["اليزي", "برج النحاس", "إن أسبين", "تامنجط", "أولاد أحمد"],
+        "55 تازة": ["تازة", "الزهيرية", "سيدي علي", "أولاد عبد الدايم", "قنزات"],
+        "56 قدارة": ["قدارة", "القصر", "أولاد جلال", "الطالب", "الزبيرية"],
+        "57 المغير": ["المغير", "تماسين", "النزلة", "الطالب العربي", "أولاد الغمري"],
+        "58 المنيعة": ["المنيعة", "حاسي القارة", "بوقطب", "أولاد يحيى", "القصر"]
+    };
+
+    let currentOrderProduct = null;
+    let products = [];
+    const STORAGE_KEY = 'RahimStoreProducts';
+
+    function loadProductsFromStorage() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+            try {
+                products = JSON.parse(stored);
+                if (!Array.isArray(products)) products = [];
+            } catch(e) { products = []; }
+        } else {
+            products = [];
+        }
+        renderProducts();
+    }
+
+    function saveProductsToStorage() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+    }
+
+    function renderProducts() {
+        const container = document.getElementById('productsContainer');
+        const emptyMsgDiv = document.getElementById('emptyMessage');
+        if (!products.length) {
+            container.innerHTML = '';
+            emptyMsgDiv.style.display = 'block';
+            return;
+        }
+        emptyMsgDiv.style.display = 'none';
+        container.innerHTML = products.map(product => `
+            <div class="product-card">
+                <img class="product-img" src="${product.imageDataURL || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\' viewBox=\'0 0 24 24\' fill=\'%23faeec2\'%3E%3Crect width=\'200\' height=\'200\' fill=\'%23faeec2\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23b87c2e\' font-size=\'12\'%3E🖼️%3C/text%3E%3C/svg%3E'}" alt="${escapeHtml(product.name)}">
+                <div class="product-info">
+                    <div class="product-name">${escapeHtml(product.name)}</div>
+                    <div class="product-price">${escapeHtml(product.price)} دج</div>
+                    <div class="product-desc">${escapeHtml(product.desc)}</div>
+                    <button class="order-btn" data-name="${escapeHtml(product.name)}" data-id="${product.id}">📞 اطلب الآن</button>
+                </div>
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.order-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const productId = parseInt(btn.dataset.id);
+                const product = products.find(p => p.id === productId);
+                if (product) openOrderForm(product);
+            });
+        });
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // فتح استمارة الطلب
+    function openOrderForm(product) {
+        currentOrderProduct = product;
+        const modal = document.getElementById('orderFormModal');
+        const modalContent = document.getElementById('orderModalContent');
+
+        let wilayasOptions = '<option value="">-- اختر الولاية --</option>';
+        for (let wilaya of Object.keys(algeriaFullData).sort()) {
+            wilayasOptions += `<option value="${wilaya}">${wilaya}</option>`;
+        }
+
+        modalContent.innerHTML = `
+            <h2>📝 استمارة طلب المنتج</h2>
+            <div style="background:#fef3e0; padding:0.8rem; border-radius:1rem; margin-bottom:1rem;">
+                <strong>المنتج:</strong> ${escapeHtml(product.name)}<br>
+                <strong>السعر:</strong> ${escapeHtml(product.price)} دج
+            </div>
+            <div class="form-group">
+                <label>الاسم الكامل *</label>
+                <input type="text" id="fullName" placeholder="مثال: أحمد بن سالم" required>
+            </div>
+            <div class="form-group">
+                <label>اللقب *</label>
+                <input type="text" id="lastName" placeholder="مثال: بن علي" required>
+            </div>
+            <div class="form-group">
+                <label>رقم الهاتف *</label>
+                <input type="tel" id="phone" placeholder="مثال: 0555123456" required>
+            </div>
+            <div class="form-group">
+                <label>الولاية *</label>
+                <select id="wilayaSelect">${wilayasOptions}</select>
+            </div>
+            <div class="form-group">
+                <label>البلدية *</label>
+                <select id="communeSelect" disabled>
+                    <option value="">-- اختر الولاية أولاً --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>عنوان إضافي (اختياري)</label>
+                <textarea id="address" rows="2" placeholder="الشارع، رقم البناء..."></textarea>
+            </div>
+            <button id="submitOrderBtn">📤 إرسال الطلب</button>
+            <button id="cancelOrderBtn" style="background:#e2d5bd;">إلغاء</button>
+        `;
+
+        const wilayaSelect = document.getElementById('wilayaSelect');
+        const communeSelect = document.getElementById('communeSelect');
+
+        wilayaSelect.addEventListener('change', function() {
+            const selectedWilaya = this.value;
+            if (selectedWilaya && algeriaFullData[selectedWilaya]) {
+                let communes = algeriaFullData[selectedWilaya];
+                communeSelect.disabled = false;
+                communeSelect.innerHTML = '<option value="">-- اختر البلدية --</option>' +
+                    communes.map(c => `<option value="${c}">${c}</option>`).join('');
+            } else {
+                communeSelect.disabled = true;
+                communeSelect.innerHTML = '<option value="">-- اختر الولاية أولاً --</option>';
+            }
+        });
+
+        document.getElementById('submitOrderBtn').addEventListener('click', () => {
+            sendOrderToWhatsAppAndClose();
+        });
+        document.getElementById('cancelOrderBtn').addEventListener('click', () => {
+            modal.style.display = 'none';
+            currentOrderProduct = null;
+        });
+
+        modal.style.display = 'flex';
+    }
+
+    function sendOrderToWhatsAppAndClose() {
+        const fullName = document.getElementById('fullName')?.value.trim();
+        const lastName = document.getElementById('lastName')?.value.trim();
+        const phone = document.getElementById('phone')?.value.trim();
+        const wilaya = document.getElementById('wilayaSelect')?.value;
+        const commune = document.getElementById('communeSelect')?.value;
+        const address = document.getElementById('address')?.value.trim();
+
+        if (!fullName || !lastName || !phone || !wilaya || !commune) {
+            alert('يرجى تعبئة جميع الحقول المطلوبة: الاسم، اللقب، رقم الهاتف، الولاية، البلدية.');
+            return;
+        }
+
+        const product = currentOrderProduct;
+        const message = `🛍️ طلب جديد من متجر RAHIM 🏪
+━━━━━━━━━━━━━━━━━━━
+👤 معلومات العميل:
+• الاسم الكامل: ${fullName} ${lastName}
+• رقم الهاتف: ${phone}
+• الولاية: ${wilaya}
+• البلدية: ${commune}
+${address ? `• العنوان الإضافي: ${address}` : ''}
+━━━━━━━━━━━━━━━━━━━
+📦 تفاصيل المنتج:
+• المنتج: ${product.name}
+• السعر: ${product.price} دج
+• الوصف: ${product.desc}
+━━━━━━━━━━━━━━━━━━━
+📅 تاريخ الطلب: ${new Date().toLocaleString('ar-DZ')}
+`;
+
+        const whatsappNumber = "213549995897";
+        const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+        // إغلاق المودال فوراً بدون أي رسالة للمشتري
+        document.getElementById('orderFormModal').style.display = 'none';
+        currentOrderProduct = null;
+
+        // فتح واتساب في نافذة جديدة
+        window.open(url, '_blank');
+    }
+
+    // ------------------ لوحة الإدارة ------------------
+    let isAdminLoggedIn = false;
+    const adminModal = document.getElementById('adminModal');
+    const modalDynamic = document.getElementById('modalDynamic');
+    const adminTrigger = document.getElementById('adminTriggerBtn');
+
+    function openAdminModal() {
+        if (isAdminLoggedIn) renderAdminPanel();
+        else renderLoginScreen();
+        adminModal.style.display = 'flex';
+    }
+
+    function closeAdminModal() { adminModal.style.display = 'none'; }
+
+    function renderLoginScreen() {
+        modalDynamic.innerHTML = `
+            <h2>🔐 دخول لوحة الإدارة</h2>
+            <label>كلمة المرور</label>
+            <input type="password" id="adminPassword" placeholder="********">
+            <button id="loginSubmitBtn">تسجيل الدخول</button>
+            <div id="loginErrorMsg" class="login-error"></div>
+            <button id="closeModalBtn" style="background:#ece3d4;">إغلاق</button>
+        `;
+        document.getElementById('loginSubmitBtn').addEventListener('click', () => {
+            if (document.getElementById('adminPassword').value === 'rahim123') {
+                isAdminLoggedIn = true;
+                renderAdminPanel();
+            } else {
+                document.getElementById('loginErrorMsg').innerText = 'كلمة المرور غير صحيحة';
+            }
+        });
+        document.getElementById('closeModalBtn').addEventListener('click', closeAdminModal);
+    }
+
+    function renderAdminPanel() {
+        modalDynamic.innerHTML = `
+            <h2>🛠️ لوحة الإدارة - RAHIM</h2>
+            <div style="background:#fdf6ea; padding:1rem; border-radius:1.5rem;">
+                <h3>➕ إضافة منتج</h3>
+                <label class="file-label">📸 صورة المنتج <input type="file" id="productImageInput" accept="image/*"></label>
+                <img id="imagePreview" class="preview-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='%23f9e5c1'%3E%3Crect width='60' height='60' fill='%23fbeaca'/%3E%3Ctext x='30' y='35' font-size='8' fill='%23997438' text-anchor='middle'%3Eمعاينة%3C/text%3E%3C/svg%3E">
+                <input type="text" id="prodName" placeholder="اسم المنتج">
+                <input type="text" id="prodPrice" placeholder="السعر (دج)">
+                <textarea id="prodDesc" rows="2" placeholder="وصف المنتج"></textarea>
+                <button id="addProductBtn">✨ إضافة</button>
+            </div>
+            <hr><h3>📦 المنتجات</h3><div id="adminProductsList"></div>
+            <button id="logoutAdminBtn" class="logout-btn">تسجيل خروج</button>
+            <button id="closeAdminModalBtn">إغلاق</button>
+        `;
+        let currentImg = null;
+        const imgInput = document.getElementById('productImageInput');
+        const preview = document.getElementById('imagePreview');
+        imgInput?.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if(file) { const r = new FileReader(); r.onload = (ev) => { currentImg = ev.target.result; preview.src = currentImg; }; r.readAsDataURL(file); }
+        });
+        document.getElementById('addProductBtn').addEventListener('click', () => {
+            const name = document.getElementById('prodName').value.trim();
+            const price = document.getElementById('prodPrice').value.trim();
+            const desc = document.getElementById('prodDesc').value.trim();
+            if(!name || !price || !desc) return alert('املأ الحقول');
+            products.push({ id: Date.now(), name, price, desc, imageDataURL: currentImg || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 24 24' fill='%23faeec2'%3E%3Crect width='200' height='200' fill='%23faeec2'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23b87c2e' font-size='12'%3E🖼️%3C/text%3E%3C/svg%3E" });
+            saveProductsToStorage(); renderProducts(); refreshAdminList(); clearForm();
+        });
+        function refreshAdminList() {
+            const listDiv = document.getElementById('adminProductsList');
+            if(!products.length) { listDiv.innerHTML = '<p>لا منتجات</p>'; return; }
+            listDiv.innerHTML = products.map(p => `<div class="product-admin-item"><div><b>${escapeHtml(p.name)}</b> - ${p.price} دج</div><div><button class="admin-sm-btn edit-prod" data-id="${p.id}">تعديل</button><button class="admin-sm-btn danger-btn delete-prod" data-id="${p.id}">حذف</button></div></div>`).join('');
+            document.querySelectorAll('.edit-prod').forEach(btn => btn.addEventListener('click', (e) => editProduct(parseInt(btn.dataset.id))));
+            document.querySelectorAll('.delete-prod').forEach(btn => btn.addEventListener('click', (e) => { if(confirm('حذف؟')) { products = products.filter(p => p.id !== parseInt(btn.dataset.id)); saveProductsToStorage(); renderProducts(); refreshAdminList(); } }));
+        }
+        function editProduct(id) {
+            let prod = products.find(p => p.id === id);
+            if(!prod) return;
+            let newName = prompt('اسم جديد:', prod.name);
+            let newPrice = prompt('سعر جديد:', prod.price);
+            let newDesc = prompt('وصف جديد:', prod.desc);
+            if(newName && newPrice && newDesc !== null) { prod.name = newName; prod.price = newPrice; prod.desc = newDesc; saveProductsToStorage(); renderProducts(); refreshAdminList(); alert('تم التعديل'); }
+        }
+        function clearForm() { document.getElementById('prodName').value = ''; document.getElementById('prodPrice').value = ''; document.getElementById('prodDesc').value = ''; currentImg = null; if(preview) preview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='%23f9e5c1'%3E%3Crect width='60' height='60' fill='%23fbeaca'/%3E%3Ctext x='30' y='35' font-size='8' fill='%23997438' text-anchor='middle'%3Eمعاينة%3C/text%3E%3C/svg%3E"; }
+        refreshAdminList();
+        document.getElementById('logoutAdminBtn').addEventListener('click', () => { isAdminLoggedIn = false; closeAdminModal(); });
+        document.getElementById('closeAdminModalBtn').addEventListener('click', closeAdminModal);
+    }
+
+    adminTrigger.addEventListener('click', openAdminModal);
+    loadProductsFromStorage();
+</script>
+</body>
+</html>
