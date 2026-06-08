@@ -353,11 +353,10 @@
     let currentOrderProduct = null;
     let products = [];
     
-    // JSONBin.io configuration (free cloud storage)
-    const BIN_ID = "67c7e7b8acd3cb34a8fdb2e9";
-    const API_KEY = "$2a$10$ymZqJGPxM5YkYZ7/kKJg/uS0rYJ4RsdnK1UzRZJqQKqKqKqKqKqK";
+    // JSONBin.io configuration (updated with new keys)
+    const BIN_ID = "6a26cfe7f5f4af5e29cbcd22";
+    const API_KEY = "$2a$10$dE7sx.a5QkAU2PXIZWlJ/eQ.zNYQBM8T7tEaprexD7JPGyZlMQqq.";
     
-    // Helper function to show toast
     function showToast(message, isError = false) {
         const toast = document.createElement('div');
         toast.className = 'success-toast';
@@ -367,7 +366,6 @@
         setTimeout(() => toast.remove(), 2500);
     }
 
-    // Load products from cloud
     async function loadProductsFromCloud() {
         try {
             const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
@@ -388,7 +386,6 @@
         }
     }
 
-    // Save products to cloud
     async function saveProductsToCloud() {
         try {
             const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
@@ -453,7 +450,6 @@
         });
     }
 
-    // Open order form
     function openOrderForm(product) {
         currentOrderProduct = product;
         const modal = document.getElementById('orderFormModal');
@@ -564,12 +560,11 @@ ${address ? `• العنوان الإضافي: ${address}` : ''}
         document.getElementById('orderFormModal').style.display = 'none';
         currentOrderProduct = null;
         
-        // Open WhatsApp in background (user will see it but we can't avoid completely)
         window.open(whatsappUrl, '_blank');
         showToast("✅ تم إرسال طلبك بنجاح!");
     }
 
-    // ------------------ Admin Panel ------------------
+    // Admin Panel
     let isAdminLoggedIn = false;
     const adminModal = document.getElementById('adminModal');
     const modalDynamic = document.getElementById('modalDynamic');
@@ -693,8 +688,6 @@ ${address ? `• العنوان الإضافي: ${address}` : ''}
     }
 
     adminTrigger.addEventListener('click', openAdminModal);
-    
-    // Load products from cloud on start
     loadProductsFromCloud();
 </script>
 </body>
